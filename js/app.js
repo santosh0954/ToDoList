@@ -218,14 +218,19 @@ checkbox.addEventListener("change", function() {
   //
 
   function deleteChecked() {
+    let len = 0;
     document.querySelectorAll(".checkbox").forEach(function(el) {
       if(el.checked === true) {
         // console.log(el.parentElement);
         el.parentElement.remove();
-      }else {
-        showNotification("You haven't selected any list");
+        len++;
       }
     });
+    // console.log(len);
+  
+    if(len === 0 ) {
+        showNotification("You haven't selected any list");
+    }
   }
   // Clear all function
   function clearAllList() {
