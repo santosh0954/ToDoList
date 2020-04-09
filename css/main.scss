@@ -1,0 +1,25 @@
+/* stylesheet of the do list with compiled custom bootstrap
+Author: Santosh Jha
+Developer: Santosh Jha
+ */
+// custom bootstraph color
+$primary: #dd6dc5;
+$info: rgb(53, 121, 148);
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
+// making checkbox
+#checkbox {
+  display: inline-block;
+  // transform: scale(1.5);
+  width: 25px;
+  height: 25px;
+  margin: 0 30px 0 10px;
+}
+
+.checkbox {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin: 0 20px 0 0;
+  vertical-align: middle;
+}

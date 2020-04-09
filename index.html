@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To do list</title>
+  <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
+  <!-- <link rel="text/html" href="../node_modules/@fortawesome/fontawesome-free/css/all.css"> -->
+  <link rel="stylesheet" href="css/main.css" />
+  <script src="css/fontawesome/js/all.min.js"></script>
+
+</head>
+
+<body class="bg-dark">
+
+  <!--
+    -- ─── HEADER ─────────────────────────────────────────────────────────────────────
+    -->
+
+  <div class="col-sm-6 mx-auto mt-5   p-3 border border-secondary rounded shadow  bg-white">
+    <h1 class="display-4 mb-4 ">To-do task:--</h1>
+    <input type="text" class="form-control" placeholder="add task" id="taskInput" />
+    <button class="btn btn-info btn-sm mt-4 px-5" id="addTask" type="button">Add Task</button>
+    <hr />
+    <!--
+      -- ─── FILTER SECTION ──────────────────────────────────────────────
+    -->
+
+    <div class="form-inline ">
+      <input type="checkbox" id="checkbox">
+      <div class="btn-group btn-group-sm text-white">
+        <button type="button" class="btn btn-info filter" data="all">All</button>
+        <button type="button" class="btn btn-info filter" data="fav">Favorite</button>
+      </div>
+      <input type="text" class=" form-control ml-auto" id="filterInput" placeholder="filter task" />
+    </div>
+    <!--
+      -- ─── TASK LIST ───────────────────────────────────────────────────
+      -->
+
+    <div class="task py-4">
+      <ul class=" list-group list-group-flush list">
+
+      </ul>
+    </div>
+    <!--
+      -- ─── TASK CLEAR BUTTON ───────────────────────────────────────────
+      -->
+      
+    <button class="btn btn-dark btn-sm ml-2 px-5" id="delete">Delete</button>
+    <button class="btn btn-danger btn-sm ml-2 px-5" id="clearAll">Clear All</button>
+  </div>
+  <!-- column end  -->
+
+  <!--
+    -- ──────────────────────────────────────────────────────────── I ──────────
+    --   :::::: J A V A S C R I P T : :  :   :    :     :        :          :
+    -- ──────────────────────────────────────────────────────────────────────
+    -->
+  <script src="js/app.js"></script>
+</body>
+
+</html>
