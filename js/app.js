@@ -21,6 +21,8 @@ const filterBtns = document.querySelectorAll(".filter");
 const filterInput = document.getElementById("filterInput");
 // clear all button
 const clearAll = document.getElementById('clearAll');
+// Form element
+const form = document.getElementById('form');
 
 
 // delete button 
@@ -34,7 +36,9 @@ filterBtns.forEach(function(filterBtn) {
 filterInput.addEventListener("keyup", filterByInput);
 
 // Add task events
-addTask.addEventListener("click", addingList);
+document.addEventListener('DOMContentLoaded', getTasks);
+
+form.addEventListener("submit", addingList);
 //adding favorite button working 
 ul.addEventListener('click', toggleFav);
 // delete event
@@ -45,10 +49,37 @@ dltBtn.addEventListener('click', deleteChecked);
 clearAll.addEventListener('click', clearAllList);
 
 //
+// ─── LOAD CONTENT FROM LOCALSTORAGE ─────────────────────────────────────────────
+//
+function getTasks() {
+  let tasks;
+    if(localStorage.getItem('tasks') === null) {
+      console.log(localStorage.getItem('tasks'));
+      tasks = [];
+    }else {
+      tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
+    tasks.forEach(function(task) {
+      const li = document.createElement("li");
+      li.className = "list-group-item list-group-item-action";
+      li.innerHTML = ` <input type="checkbox" class="checkbox"> |
+    <a href="#" class=" btn text-secondary favBtn" data = "all" title = "Add to Favourite">
+      <i class=" fas fa-heart mx-2 d-inline-block"></i>
+    </a>
+    |
+    <span class="listText ml-2 lead">${task.toUpperCase()}</span>
+    <button class=" close">&times;</button>`;
+      // console.log(li);
+      ul.appendChild(li);
+    });
+}
+  
+
+//
 // ─── ADD TASK LIST FUNCTION ─────────────────────────────────────────────────────
 //
 
-function addingList() {
+function addingList(e) {
   // console.log("working");
   // console.log(favBtns);
   let val = taskInput.value.trim();
@@ -67,9 +98,11 @@ function addingList() {
   <button class=" close">&times;</button>`;
     // console.log(li);
     ul.appendChild(li);
-    taskInput.value = '';
     // Set localStorage to store the list item
-    storeTaskInLocalStorage();
+    storeTaskInLocalStorage(taskInput.value);
+    // And clear the input data
+    taskInput.value = '';
+    e.preventDefault();
   }
 }
 //
@@ -169,8 +202,19 @@ checkbox.addEventListener("change", function() {
 // ─── STORING IN THE LOCALSTORAGE ────────────────────────────────────────────────
 //
 
-  function storeTaskInLocalStorage() {
-    console.log('localstorage');
+  function storeTaskInLocalStorage(task) {
+    let tasks;
+    if(localStorage.getItem('tasks') === null) {
+      console.log(localStorage.getItem('tasks'));
+      tasks = [];
+    }else {
+      tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
+    // push that changes to localStorage
+    tasks.push(task);
+    console.log(tasks);
+    localStorage.setItem('tasks',JSON.stringify(tasks));
+    
   }
 
   // toggle favourite function
@@ -210,7 +254,27 @@ checkbox.addEventListener("change", function() {
     // console.log('working delete list', e.target.parentElement)
     if(e.target.classList.contains('close')) {
       e.target.parentElement.remove();
+      // remove from localStorage
+      removeTaskFromLocalStorage(e.target.parentElement.querySelector('.listText'));
+      // console.log(e.target.parentElement.querySelector('.listText'));
     }
+  }
+  // Remove from LS
+  function removeTaskFromLocalStorage(taskItem) {
+    let tasks;
+    if(localStorage.getItem('tasks') === null) {
+      console.log(localStorage.getItem('tasks'));
+      tasks = [];
+    }else {
+      tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
+    console.log(taskItem.textContent);
+    tasks.forEach(function(task, index) {
+      if(taskItem.textContent.toLowerCase() == task) {
+        tasks.splice(index, 1);
+      }
+    });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
   //
@@ -221,8 +285,10 @@ checkbox.addEventListener("change", function() {
     let len = 0;
     document.querySelectorAll(".checkbox").forEach(function(el) {
       if(el.checked === true) {
-        // console.log(el.parentElement);
+        console.log(el.parentElement);
         el.parentElement.remove();
+        // Removing from LS
+        removeTaskFromLocalStorage(el.parentElement.querySelector('.listText'));
         len++;
       }
     });
@@ -234,6 +300,18 @@ checkbox.addEventListener("change", function() {
   }
   // Clear all function
   function clearAllList() {
-    ul.innerHTML = '';
+    // ul.innerHTML = '';
+
+    // Faster
+    while(ul.firstChild) {
+      ul.removeChild(ul.firstChild);
+    }
+    // Clear from LocalStorage
+    clearTaskFromLocalStorage();
+    
+  }
+  // Clear task from LS
+  function clearTaskFromLocalStorage() {
+    localStorage.clear();
   }
     
